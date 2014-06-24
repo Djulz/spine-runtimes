@@ -36,17 +36,14 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Spine {
 	public class XnaTextureLoader : TextureLoader {
-		GraphicsDevice device;
         ContentManager content;
 
-		public XnaTextureLoader (GraphicsDevice device, ContentManager content) {
-			this.device = device;
+		public XnaTextureLoader (ContentManager content) {
             this.content = content;
 		}
 
 		public void Load (AtlasPage page, String path) {
-            //Texture2D texture = content.Load<Texture2D>(path);
-            Texture2D texture = Util.LoadTexture(device, path);
+            Texture2D texture = content.Load<Texture2D>(path);
 			page.rendererObject = texture;
 			page.width = texture.Width;
 			page.height = texture.Height;
