@@ -83,7 +83,7 @@ namespace Spine {
 		public void End () {
 			foreach (EffectPass pass in effect.CurrentTechnique.Passes) {
 				pass.Apply();
-				batcher.Draw(device);
+				batcher.Draw(device, Effect);
 			}
 		}
 

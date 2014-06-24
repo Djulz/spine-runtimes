@@ -104,7 +104,7 @@ namespace Spine {
 			if (triangles.Length < triangleCount) triangles = new short[triangleCount];
 		}
 
-		public void Draw (GraphicsDevice device) {
+		public void Draw (GraphicsDevice device, BasicEffect effect) {
 			if (items.Count == 0) return;
 
 			int itemCount = items.Count;
@@ -124,11 +124,12 @@ namespace Spine {
 				int itemVertexCount = item.vertexCount;
 
 				if (item.texture != lastTexture || vertexCount + itemVertexCount > short.MaxValue) {
-					FlushVertexArray(device, vertexCount, triangleCount);
+					FlushVertexArray(device, effect, vertexCount, triangleCount);
 					vertexCount = 0;
 					triangleCount = 0;
 					lastTexture = item.texture;
-					device.Textures[0] = lastTexture;
+					//device.Textures[0] = lastTexture;
+                    effect.Texture = lastTexture;
 				}
 
 				int[] itemTriangles = item.triangles;
@@ -143,18 +144,19 @@ namespace Spine {
 				item.texture = null;
 				freeItems.Enqueue(item);
 			}
-			FlushVertexArray(device, vertexCount, triangleCount);
+			FlushVertexArray(device, effect, vertexCount, triangleCount);
 			items.Clear();
 		}
 
-		private void FlushVertexArray (GraphicsDevice device, int vertexCount, int triangleCount) {
-			if (vertexCount == 0) return;
-			device.DrawUserIndexedPrimitives(
-				PrimitiveType.TriangleList,
-				vertexArray, 0, vertexCount,
-				triangles, 0, triangleCount / 3,
-				VertexPositionColorTexture.VertexDeclaration);
-		}
+        private void FlushVertexArray(GraphicsDevice device, Effect effect, int vertexCount, int triangleCount)
+        {
+            if (vertexCount == 0) return;
+            device.DrawUserIndexedPrimitives(
+                PrimitiveType.TriangleList,
+                vertexArray, 0, vertexCount,
+                triangles, 0, triangleCount / 3,
+                VertexPositionColorTexture.VertexDeclaration);
+        }
 	}
 
 	public class MeshItem {

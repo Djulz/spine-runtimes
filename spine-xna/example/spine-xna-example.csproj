@@ -116,7 +116,9 @@
     <Compile Include="src\ExampleProgram.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="data\goblins-ffd.png" />
+    <Content Include="data\goblins-ffd.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="data\spineboy.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -161,8 +163,12 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="data\goblins-ffd.atlas" />
-    <None Include="data\goblins-ffd.json" />
+    <None Include="data\goblins-ffd.atlas">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="data\goblins-ffd.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="data\spineboy.atlas">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

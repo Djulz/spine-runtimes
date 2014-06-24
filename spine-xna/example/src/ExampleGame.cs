@@ -73,15 +73,17 @@ namespace Spine {
 		protected override void LoadContent () {
 			skeletonRenderer = new SkeletonMeshRenderer(GraphicsDevice);
 			skeletonRenderer.PremultipliedAlpha = true;
+            skeletonRenderer.Effect.DiffuseColor = Color.Red.ToVector3();
 
 			// String name = "spineboy";
 			String name = "goblins-ffd";
 
-            Atlas atlas = new Atlas(assetsFolder + name + ".atlas", new XnaTextureLoader(GraphicsDevice));
+            Atlas atlas = new Atlas(assetsFolder + name + ".atlas", new XnaTextureLoader(GraphicsDevice, Content));
 			SkeletonJson json = new SkeletonJson(atlas);
 			if (name == "spineboy") json.Scale = 0.6f;
 			skeleton = new Skeleton(json.ReadSkeletonData(assetsFolder + name + ".json"));
 			if (name == "goblins-ffd") skeleton.SetSkin("goblin");
+            
 
 			// Define mixing between animations.
 			AnimationStateData stateData = new AnimationStateData(skeleton.Data);
