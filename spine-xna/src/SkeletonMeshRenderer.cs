@@ -48,8 +48,8 @@ namespace Spine {
 		int[] quadTriangles = { 0, 1, 2, 1, 3, 2 };
 		BlendState defaultBlendState;
 
-		BasicEffect effect;
-		public BasicEffect Effect { get { return effect; } set { effect = value; } }
+		//Effect effect;
+		//public Effect Effect { get { return effect; } set { effect = value; } }
 
 		private bool premultipliedAlpha;
 		public bool PremultipliedAlpha { get { return premultipliedAlpha; } set { premultipliedAlpha = value; } }
@@ -58,36 +58,37 @@ namespace Spine {
 			this.device = device;
 
 			batcher = new MeshBatcher();
-
-			effect = new BasicEffect(device);
-			effect.World = Matrix.Identity;
-			effect.View = Matrix.CreateLookAt(new Vector3(0.0f, 0.0f, 1.0f), Vector3.Zero, Vector3.Up);
-			effect.TextureEnabled = true;
-			effect.VertexColorEnabled = true;
+            //Effect = effect;
+            //effect = new BasicEffect(device);
+            //effect.World = Matrix.Identity;
+            //effect.View = Matrix.CreateLookAt(new Vector3(0.0f, 0.0f, 1.0f), Vector3.Zero, Vector3.Up);
+            //effect.TextureEnabled = true;
+            //effect.VertexColorEnabled = true;
 
 			rasterizerState = new RasterizerState();
 			rasterizerState.CullMode = CullMode.None;
 
-			Bone.yDown = true;
+			Bone.yDown = false;
 		}
 
 		public void Begin () {
 			defaultBlendState = premultipliedAlpha ? BlendState.AlphaBlend : BlendState.NonPremultiplied;
+            device.DepthStencilState = DepthStencilState.DepthRead;
 
 			device.RasterizerState = rasterizerState;
 			device.BlendState = defaultBlendState;
 
-			effect.Projection = Matrix.CreateOrthographicOffCenter(0, device.Viewport.Width, device.Viewport.Height, 0, 1, 0);
+			//effect.Projection = Matrix.CreateOrthographicOffCenter(0, device.Viewport.Width, device.Viewport.Height, 0, 1, 0);
 		}
 
-		public void End () {
+		public void End (Effect effect) {
 			foreach (EffectPass pass in effect.CurrentTechnique.Passes) {
 				pass.Apply();
-				batcher.Draw(device, Effect);
+				batcher.Draw(device, effect);
 			}
 		}
 
-		public void Draw (Skeleton skeleton) {
+		public void Draw (Skeleton skeleton, Effect effect) {
 			float[] vertices = this.vertices;
 			List<Slot> drawOrder = skeleton.DrawOrder;
 			float x = skeleton.X, y = skeleton.Y;
@@ -99,7 +100,7 @@ namespace Spine {
 					RegionAttachment regionAttachment = (RegionAttachment)attachment;
 					BlendState blend = slot.Data.AdditiveBlending ? BlendState.Additive : defaultBlendState;
 					if (device.BlendState != blend) {
-						End();
+						End(effect);
 						device.BlendState = blend;
 					}
 

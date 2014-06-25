@@ -104,7 +104,7 @@ namespace Spine {
 			if (triangles.Length < triangleCount) triangles = new short[triangleCount];
 		}
 
-		public void Draw (GraphicsDevice device, BasicEffect effect) {
+		public void Draw (GraphicsDevice device, Effect effect) {
 			if (items.Count == 0) return;
 
 			int itemCount = items.Count;
@@ -128,8 +128,9 @@ namespace Spine {
 					vertexCount = 0;
 					triangleCount = 0;
 					lastTexture = item.texture;
-					//device.Textures[0] = lastTexture;
-                    effect.Texture = lastTexture;
+					device.Textures[0] = lastTexture;
+                    //effect.Texture = lastTexture;
+                    //effect.Parameters["xTexture"].SetValue(lastTexture);
 				}
 
 				int[] itemTriangles = item.triangles;
