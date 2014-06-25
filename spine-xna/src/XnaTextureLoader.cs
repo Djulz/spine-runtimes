@@ -43,7 +43,8 @@ namespace Spine {
 		}
 
 		public void Load (AtlasPage page, String path) {
-            Texture2D texture = content.Load<Texture2D>(path);
+            string file = Path.GetFileNameWithoutExtension(path);
+            Texture2D texture = content.Load<Texture2D>(file);
 			page.rendererObject = texture;
 			page.width = texture.Width;
 			page.height = texture.Height;
